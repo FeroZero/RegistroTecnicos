@@ -14,13 +14,13 @@ namespace RegistroTecnicos.Services
 			_contexto = contexto;
 		}
 
-		public async Task<bool> Existe(int TecnicoId)
+		private async Task<bool> Existe(int TecnicoId)
 		{
 			return await _contexto.Tecnicos
 				.AnyAsync(t => t.TecnicoId == TecnicoId);
 		}
 
-		public async Task<bool> Insertar(Tecnicos tecnico)
+		private async Task<bool> Insertar(Tecnicos tecnico)
 		{
 			_contexto.Tecnicos.Add(tecnico);
 			return await _contexto.SaveChangesAsync() > 0;
