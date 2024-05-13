@@ -73,7 +73,7 @@
         if (!await Validar())
         {
             var crear = await tecnicoService.Guardar(tecnico);
-            notificacion = "El Técnico se creó correctamente";
+            notificacion = "El Técnico se edito correctamente";
             await Task.Delay(2000);
             Nuevo();
         }
