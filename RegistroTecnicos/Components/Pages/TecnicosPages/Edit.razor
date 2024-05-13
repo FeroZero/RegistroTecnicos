@@ -1,0 +1,96 @@
+﻿@page "/Tecnico/EditTecnico"
+@page "/Tecnico/EditTecnico/{TecnicoId:int}"
+@inject TecnicosServices tecnicoService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<EditForm Model="tecnico" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator/>
+    <div class="container">
+        <div class="shadow-lg">
+            @*Header*@
+            <div class="card-header">
+                <h3><strong>Crear Nuevo T&eacute;cnico</strong></h3>
+            </div>
+            @*Body*@
+            <div class="card-body">
+                @*Nombres*@
+                <label class="form-label">Nombres</label>
+                <InputText class="form-control" @bind-Value="tecnico.Nombres"></InputText>
+                <ValidationMessage For="(()=> tecnico.Nombres)" />
+                @*SueldoHora*@
+                <label class="form-label">SueldoHora</label>
+                <InputNumber class="form-control" @bind-Value="tecnico.SueldoHora"></InputNumber>
+                <ValidationMessage For="(()=> tecnico.SueldoHora)" />
+            </div>
+            @*Footer*@
+            <div class="card-footer">
+                <button type="button" class="btn btn-naranja" @onclick="VolverIndex"> Volver</button>
+                <button type="submit" class="btn btn-outline-success"> Guardar</button>
+            </div>
+        </div>
+    </div>
+    @notificacion
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int TecnicoId { get; set; }
+    public Tecnicos? tecnico { get; set; } = new Tecnicos();
+
+    public string? notificacion { get; set; }
+    private bool Clonado = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tecnico = await tecnicoService.Buscar(TecnicoId);
+    }
+
+    public void Nuevo()
+    {
+        tecnico = new Tecnicos();
+        Clonado = false;
+    }
+
+    public async Task Buscar()
+    {
+        Clonado = false;
+        var tecEncontrado = await tecnicoService.Buscar(TecnicoId);
+
+        if (tecEncontrado != null)
+        {
+            tecnico = tecEncontrado;
+        }
+        else
+        {
+            Nuevo();
+        }
+    }
+
+    public async Task Guardar()
+    {
+        if (!await Validar())
+        {
+            var crear = await tecnicoService.Guardar(tecnico);
+            notificacion = "El Técnico se creó correctamente";
+            await Task.Delay(2000);
+            Nuevo();
+        }
+        else
+            notificacion = "Ya existe un técnico con dicho nombre";
+    }
+
+    public async Task<bool> Validar()
+    {
+        var existe = await tecnicoService.Listar(l => l.Nombres.ToLower() == tecnico.Nombres.ToLower() 
+        && l.TecnicoId != tecnico.TecnicoId);
+        Clonado = existe.Any();
+        return Clonado;
+    }
+
+    public void VolverIndex()
+    {
+        navigationManager.NavigateTo("/Tecnico/IndexTecnico");
+    }
+}
