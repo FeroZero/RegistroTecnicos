@@ -1,0 +1,88 @@
+﻿@page "/Tecnico/IndexTecnico"
+@inject TecnicosServices tecnicoService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Index Tecnico</PageTitle>
+<div class="container">
+	<div class="shadow-lg">
+		@*Header*@
+		<div class="card-header">
+			<div class="text=center">
+				<h3><strong>Listado de T&eacute;cnicos</strong></h3>	
+			</div>
+			<div class="text-end">
+				<button class="btn btn-outline-primary" @onclick="Crear">Crear</button>
+			</div>
+		</div>
+		@*Body*@
+		<div class="card-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>T&eacute;cnicoId</th>
+						<th>Nombres</th>
+						<th>Sueldo</th>
+						<th>Editar</th>
+						<th>Detalle</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					@foreach (var tecnicos in ListaTecnico)
+					{
+						<tr>
+							<td>@tecnicos.TecnicoId</td>
+							<td>@tecnicos.Nombres</td>
+							<td>@tecnicos.SueldoHora</td>
+							<td><button type="button" class="btn btn-outline-warning" @onclick="()=> Editar(tecnicos.TecnicoId)">Editar</button></td>
+							<td><button type="button" class="btn btn-outline-success" @onclick="()=> Detalle(tecnicos.TecnicoId)">Detalle</button></td>
+							<td><button type="button" class="btn btn-outline-danger" @onclick="()=> Eliminar(tecnicos.TecnicoId)">Eliminar</button></td>
+						</tr>
+					}
+
+				</tbody>
+			</table>
+		</div>
+		@*Footer*@
+		<div class="card-footer">
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+@code {
+	public List<Tecnicos> ListaTecnico = new List<Tecnicos>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		ListaTecnico = await tecnicoService.Listar(t => t.TecnicoId > 0);
+	}
+
+	public void Crear()
+	{
+		navigationManager.NavigateTo("/Tecnico/CreateTecnico");
+	}
+
+	public void Editar(int Tecnicoid)
+	{
+		navigationManager.NavigateTo($"/Tecnico/EditTecnico/{Tecnicoid}");
+	}
+
+	public void Detalle(int Tecnicoid)
+	{
+		navigationManager.NavigateTo($"/Tecnico/DetailsTecnico/{Tecnicoid}");
+	}
+
+	public void Eliminar(int TecnicoId)
+	{
+		navigationManager.NavigateTo($"/Tecnico/DeleteTecnico/{TecnicoId}");
+	}
+
+}
