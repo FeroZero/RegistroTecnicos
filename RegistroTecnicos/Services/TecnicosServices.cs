@@ -53,8 +53,15 @@ namespace RegistroTecnicos.Services
 				AsNoTracking()
 				.FirstOrDefaultAsync(T => T.TecnicoId == id);
 		}
+		
+		public async Task<Tecnicos?> BuscarNombre(string nombre)
+		{
+			return await _contexto.Tecnicos.
+				AsNoTracking()
+				.FirstOrDefaultAsync(T => T.Nombres == nombre);
+		}
 
-		public List<Tecnicos> Listar(Expression<Func<Tecnicos, bool>> criterio)
+		public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
 		{
 			return _contexto.Tecnicos.
 				AsNoTracking()
