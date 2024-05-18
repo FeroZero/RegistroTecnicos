@@ -38,9 +38,10 @@
     public string? notificacion { get; set; }
     private bool Clonado = false;
 
-    public void Nuevo()
+    public async Task Nuevo()
     {
         tecnico = new Tecnicos();
+        Clonado = false;
     }
 
 
@@ -68,8 +69,9 @@
         return Clonado;
     }
 
-    public void VolverIndex()
+    public async Task VolverIndex()
     {
+        await Task.CompletedTask;
         navigationManager.NavigateTo("/Tecnico/IndexTecnico");
     }
 }

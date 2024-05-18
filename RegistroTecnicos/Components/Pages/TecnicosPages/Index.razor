@@ -8,7 +8,7 @@
 	<div class="shadow-lg">
 		@*Header*@
 		<div class="card-header">
-			<div class="text=center">
+			<div class="text-center">
 				<h3><strong>Listado de T&eacute;cnicos</strong></h3>	
 			</div>
 			<div class="text-end">
@@ -46,8 +46,8 @@
 			</table>
 		</div>
 		@*Footer*@
-		<div class="card-footer">
-		</div>
+		@* <div class="card-footer">
+		</div> *@
 	</div>
 </div>
 
@@ -60,29 +60,34 @@
 @code {
 	public List<Tecnicos> ListaTecnico = new List<Tecnicos>();
 
+
 	protected override async Task OnInitializedAsync()
 	{
 		ListaTecnico = await tecnicoService.Listar(t => t.TecnicoId > 0);
 	}
 
-	public void Crear()
+	public async Task Crear()
 	{
-		navigationManager.NavigateTo("/Tecnico/CreateTecnico");
+		 await Task.CompletedTask;
+		 navigationManager.NavigateTo("/Tecnico/CreateTecnico");
 	}
 
-	public void Editar(int Tecnicoid)
+	public async Task Editar(int tecnicoid)
 	{
-		navigationManager.NavigateTo($"/Tecnico/EditTecnico/{Tecnicoid}");
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Tecnico/EditTecnico/{tecnicoid}");
 	}
 
-	public void Detalle(int Tecnicoid)
+	public async Task Detalle(int tecnicoid)
 	{
-		navigationManager.NavigateTo($"/Tecnico/DetailsTecnico/{Tecnicoid}");
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Tecnico/DetailsTecnico/{tecnicoid}");
 	}
 
-	public void Eliminar(int TecnicoId)
+	public async Task Eliminar(int tecnicoId)
 	{
-		navigationManager.NavigateTo($"/Tecnico/DeleteTecnico/{TecnicoId}");
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Tecnico/DeleteTecnico/{tecnicoId}");
 	}
 
 }

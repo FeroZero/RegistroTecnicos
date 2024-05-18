@@ -47,7 +47,7 @@
         tecnico = await tecnicoService.Buscar(TecnicoId);
     }
 
-    public void Nuevo()
+    public async Task Nuevo()
     {
         tecnico = new Tecnicos();
         Clonado = false;
@@ -90,8 +90,9 @@
         return Clonado;
     }
 
-    public void VolverIndex()
+    public async Task VolverIndex()
     {
+        await Task.CompletedTask;
         navigationManager.NavigateTo("/Tecnico/IndexTecnico");
     }
 }

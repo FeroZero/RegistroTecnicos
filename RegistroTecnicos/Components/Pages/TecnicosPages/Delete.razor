@@ -29,7 +29,7 @@
             @*Footer*@
             <div class="card-footer">
                 <button type="button" class="btn btn-naranja" @onclick="VolverIndex"> Volver</button>
-                <button type="button" class="btn btn-outline-danger" @onclick="Eliminar"> Eliminar</button>
+                <button type="submit" class="btn btn-outline-danger" > Eliminar</button>
             </div>
         </div>
     </div>
@@ -48,13 +48,13 @@
 
     public async Task Eliminar()
     {
-		var eliminar = await tecnicoService.Eliminar(tecnico.TecnicoId);
-        navigationManager.NavigateTo("/Tecnico/IndexTecnico");
-	}
+        var eliminar = await tecnicoService.Eliminar(TecnicoId);
+        VolverIndex();
+    }
 
-	public void VolverIndex()
+	public async Task VolverIndex()
 	{
+        await Task.CompletedTask;
 		navigationManager.NavigateTo("/Tecnico/IndexTecnico");
-
 	}
 }

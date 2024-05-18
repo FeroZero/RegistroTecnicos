@@ -35,15 +35,15 @@
 	[Parameter]
 	public int TecnicoId { get; set; }
 	public Tecnicos? tecnico { get; set; } = new Tecnicos();
-	private bool Clonado = false;
 
 	protected override async Task OnInitializedAsync()
 	{
 		tecnico = await tecnicoService.Buscar(TecnicoId);
 	}
 
-	public void VolverIndex()
+	public async Task VolverIndex()
 	{
+		await Task.CompletedTask;
 		NavigationManager.NavigateTo("/Tecnico/IndexTecnico");
 	}
 }
