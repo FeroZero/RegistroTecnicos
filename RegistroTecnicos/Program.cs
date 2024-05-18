@@ -24,6 +24,8 @@ namespace RegistroTecnicos
 
 			builder.Services.AddScoped<TecnicosServices>();
 
+			builder.Services.AddScoped<TiposTecnicos>();
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
