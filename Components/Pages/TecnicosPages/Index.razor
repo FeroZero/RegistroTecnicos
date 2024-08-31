@@ -1,0 +1,78 @@
+﻿@page "/Tecnico/Index"
+@inject TecnicoService tecnicoService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer 
+
+<PageTitle>Index Tecnicos</PageTitle>
+<div class="container">
+	<div class="shadow-lg">
+		<div class="card-header color-marcos">
+			<div class="text-center">
+				<h4 class="text-white"><strong>Registro de T&eacute;cnicos</strong></h4>
+			</div>
+			<div class="text-end">
+				<button class="btn text-naranjaAzulH" @onclick="Crear"><strong>Crear</strong></button>
+			</div>
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="text-naranja">Id</th>
+						<th class="text-naranja">Nombres</th>
+						<th class="text-naranja">Sueldo</th>
+						<th class="text-naranja">Editar</th>
+						<th class="text-naranja">Ver</th>
+						<th class="text-naranja">Eliminar</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					@foreach(var tecnicos in ListaTecnico)
+					{
+						<td>@tecnicos.TecnicoId</td>
+						<td>@tecnicos.Nombre</td>
+						<td>@tecnicos.SueldoHora</td>
+						<td><button class="btn text-naranjaAmarilloH" @onclick="()=> Editar(tecnicos.TecnicoId)">Editar</button></td>
+						<td><button class="btn text-naranjaVerdeH" @onclick="()=> Ver(tecnicos.TecnicoId)">Ver</button></td>
+						<td><button class="btn text-naranjaRojoH" @onclick="()=> Eliminar(tecnicos.TecnicoId)">Eliminar</button></td>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@code {
+	public List<Tecnicos> ListaTecnico = new List<Tecnicos>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		ListaTecnico = await tecnicoService.Listar(t => t.TecnicoId > 0);
+	}
+
+	public async Task Crear()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Tecnico/Create");
+	}
+
+	public async Task Editar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Tecnico/Edit{id}");
+	}
+
+	public async Task Ver(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Tecnico/Ver{id}");
+	}
+
+	public async Task Eliminar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Tecnico/Eliminar{id}");
+	}
+
+}
