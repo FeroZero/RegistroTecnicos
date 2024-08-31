@@ -49,3 +49,61 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+.color-marcos {
+    background-color: orange !important;
+}
+
+.text-naranja {
+    color: orange;
+    background-color: white;
+    border-color: orange;
+}
+
+.text-naranjaVerdeH {
+    color: orange;
+    background-color: white;
+    border-color: orange;
+}
+
+.text-naranjaVerdeH:hover {
+    color: white;
+    background-color: limegreen;
+    border-color: orange;
+}
+
+.text-naranjaAmarilloH {
+    color: orange;
+    background-color: white;
+    border-color: orange;
+}
+
+.text-naranjaAmarilloH:hover {
+    color: white;
+    background-color: yellow;
+    border-color: orange;
+}
+
+.text-naranjaRojoH {
+    color: orange;
+    background-color: white;
+    border-color: orange;
+}
+
+.text-naranjaRojoH:hover {
+    color: white;
+    background-color: red;
+    border-color: orange;
+}
+
+.text-naranjaAzulH {
+    color: orange;
+    background-color: white;
+    border-color: orange;
+}
+
+.text-naranjaAzulH:hover {
+        color: white;
+        background-color: deepskyblue;
+        border-color: orange;
+}
