@@ -11,7 +11,7 @@
 				<h4 class="text-white"><strong>Registro de T&eacute;cnicos</strong></h4>
 			</div>
 			<div class="text-end">
-				<button class="btn text-naranjaAzulH" @onclick="Crear"><strong>Crear</strong></button>
+				<button class="btn text-naranjaAzulH" @onclick="Crear">Crear</button>
 			</div>
 		</div>
 		<div class="card-body">
@@ -30,12 +30,14 @@
 				<tbody>
 					@foreach(var tecnicos in ListaTecnico)
 					{
-						<td>@tecnicos.TecnicoId</td>
-						<td>@tecnicos.Nombre</td>
-						<td>@tecnicos.SueldoHora</td>
-						<td><button class="btn text-naranjaAmarilloH" @onclick="()=> Editar(tecnicos.TecnicoId)">Editar</button></td>
-						<td><button class="btn text-naranjaVerdeH" @onclick="()=> Ver(tecnicos.TecnicoId)">Ver</button></td>
-						<td><button class="btn text-naranjaRojoH" @onclick="()=> Eliminar(tecnicos.TecnicoId)">Eliminar</button></td>
+						<tr>
+							<td>@tecnicos.TecnicoId</td>
+							<td>@tecnicos.Nombre</td>
+							<td>@tecnicos.SueldoHora</td>
+							<td><button class="btn text-naranjaAzulH" @onclick="()=> Editar(tecnicos.TecnicoId)">Editar</button></td>
+							<td><button class="btn text-naranjaVerdeH" @onclick="()=> Ver(tecnicos.TecnicoId)">Ver</button></td>
+							<td><button class="btn text-naranjaRojoH" @onclick="()=> Eliminar(tecnicos.TecnicoId)">Eliminar</button></td>
+						</tr>
 					}
 				</tbody>
 			</table>
