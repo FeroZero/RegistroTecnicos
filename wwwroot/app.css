@@ -69,7 +69,7 @@ h1:focus {
 .text-naranjaVerdeH:hover {
     color: white;
     background-color: limegreen;
-    border-color: orange;
+    border-color: limegreen;
 }
 
 .text-naranjaAmarilloH {
@@ -78,11 +78,11 @@ h1:focus {
     border-color: orange;
 }
 
-.text-naranjaAmarilloH:hover {
-    color: white;
-    background-color: yellow;
-    border-color: orange;
-}
+    .text-naranjaAmarilloH:hover {
+        color: white;
+        background-color: #E0DD2E;
+        border-color: #E0DD2E;
+    }
 
 .text-naranjaRojoH {
     color: orange;
@@ -93,7 +93,7 @@ h1:focus {
 .text-naranjaRojoH:hover {
     color: white;
     background-color: red;
-    border-color: orange;
+    border-color: red;
 }
 
 .text-naranjaAzulH {
@@ -105,5 +105,5 @@ h1:focus {
 .text-naranjaAzulH:hover {
         color: white;
         background-color: deepskyblue;
-        border-color: orange;
+        border-color: deepskyblue;
 }
