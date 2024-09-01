@@ -12,8 +12,10 @@ namespace RegistroTecnicos
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddRazorComponents()
+			builder.Services.AddBlazorBootstrap();
+
+			// Add services to the container.
+			builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
             var ConStr = builder.Configuration.GetConnectionString("ConStr");
@@ -24,8 +26,7 @@ namespace RegistroTecnicos
 
             builder.Services.AddScoped<TecnicoService>();
 
-
-            var app = builder.Build();
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
