@@ -5,21 +5,25 @@
 
 <EditForm Model="tecnicos">
 	<div class ="container">
-		@*header*@
-		<div class="card-header color-marcos">
-			<h4 class="text-white"><strong>Detalles</strong></h4>
-		</div>
-		@*body*@
-		<div class="card-body">
-			<ul>
-				<li><strong class="text-naranja">Id: </strong><strong>@tecnicos.TecnicoId</strong></li>
-				<li><strong class="text-naranja">Nombre: </strong><strong>@tecnicos.Nombre</strong></li>
-				<li><strong class="text-naranja">Sueldo: </strong><strong>@tecnicos.SueldoHora</strong></li>
-			</ul>
-		</div>
-		@*fotter*@
-		<div class="card-fotter">
-			<button class="btn btn-OGH" @onclick="Volver">Volver</button>
+		<div class="card shadow">
+			@*header*@
+			<div class="card-header color-marcos">
+				<h4 class="text-white"><strong>Detalles</strong></h4>
+			</div>
+			@*body*@
+			<div class="card-body">
+				<ul>
+					<li><strong class="text-naranja">Id: </strong><strong>@tecnicos.TecnicoId</strong></li>
+					<li><strong class="text-naranja">Nombre: </strong><strong>@tecnicos.Nombre</strong></li>
+					<li><strong class="text-naranja">Sueldo: </strong><strong>@tecnicos.SueldoHora</strong></li>
+				</ul>
+			</div>
+			@*fotter*@
+			<div class="card-fotter">
+				<div class="card">
+					<button class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+				</div>
+			</div>
 		</div>
 	</div>
 </EditForm>
