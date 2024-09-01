@@ -31,8 +31,8 @@
 					<table style="width: 31%;">
 						<tr>
 							<td style="text-align: left;">
-							<button class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
-							<button class="btn text-naranjaAzulH bi bi-arrow-counterclockwise" @onclick="Nuevo"></button>
+							<button type="button" class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+							<button type="button" class="btn text-naranjaAzulH bi bi-arrow-counterclockwise" @onclick="Nuevo"></button>
 							</td>
 							<td style="text-align: right;">
 							<button type="submit" class="btn btn-outline-success bi bi-floppy-fill"></button>
@@ -64,8 +64,6 @@
 			message: $"Este nombre esta ocupado por otro usuario."));
 			return;
 		}
-		
-
 		var crear = await tecnicoService.Guardar(tecnico);
 		if (crear)
 		{
@@ -76,6 +74,14 @@
 			message: $"Se a guardo el tecnico correctamente."));
 			Nuevo();
 			Volver();
+		}
+		else
+		{
+			toastService.Notify(new(ToastType.Danger,
+			iconName: IconName.None,
+			title: "Error",
+			helpText: $"{DateTime.Now}",
+			message: $"No se agrego correctamente."));
 		}
 	}
 
