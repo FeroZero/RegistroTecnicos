@@ -1,34 +1,38 @@
 ﻿@page "/Tecnico/Delete/{TecnicoId:int}"
 @inject TecnicoService tecnicoService
 @inject NavigationManager navigationManager
+@inject ToastService toastService
 @rendermode InteractiveServer
 
 <EditForm Model="tecnicos">
-	<div class="container">
-		@*header*@
-		<div class="card-header color-marcos">
-			<h4 class="text-white"><strong>Esta seguro de querer eliminar este t&eacute;cnico?</strong></h4>
-		</div>
-		@*body*@
-		<div class="card-body">
-			<ul>
-				<li><strong class="text-naranja">Id: </strong><strong>@tecnicos.TecnicoId</strong></li>
-				<li><strong class="text-naranja">Nombre: </strong><strong>@tecnicos.Nombre</strong></li>
-				<li><strong class="text-naranja">Sueldo: </strong><strong>@tecnicos.SueldoHora</strong></li>
-			</ul>
-		</div>
-		@*fotter*@
-		<div class="card-footer">
-			<table style="width: 35%;">
-				<tr>
-					<td style="text-align: left;">
-						<button class="btn btn-OGH" @onclick="Volver">Volver</button>
-					</td>
-					<td style="text-align: right;">
-						<button class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-					</td>
-				</tr>
-			</table>
+	<div class="container-sm">
+		<div class="card shadow-sm">
+			@*header*@
+			<div class="card-header color-marcos">
+
+				<h2 class="text-white"><strong>Esta seguro de querer eliminar este t&eacute;cnico?</strong></h2>
+			</div>
+			@*body*@
+			<div class="card-body">
+				<ul>
+					<li><strong class="text-naranja">Id: </strong><strong>@tecnicos.TecnicoId</strong></li>
+					<li><strong class="text-naranja">Nombre: </strong><strong>@tecnicos.Nombre</strong></li>
+					<li><strong class="text-naranja">Sueldo: </strong><strong>@tecnicos.SueldoHora</strong></li>
+				</ul>
+			</div>
+			@*fotter*@
+			<div class="card-footer">
+				<table style="width: 15%;">
+					<tr>
+						<td style="text-align: left;">
+							<button class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+						</td>
+						<td style="text-align: right;">
+							<button class="btn btn-outline-danger bi bi-trash3" @onclick="Eliminar"></button>
+						</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 </EditForm>
@@ -44,8 +48,13 @@
 
 	public async Task Eliminar()
 	{
-		var eliminar = await tecnicoService.Eliminar(TecnicoId);
-		Volver();
+			var eliminar = await tecnicoService.Eliminar(TecnicoId);
+			toastService.Notify(new(ToastType.Danger,
+			iconName: IconName.Trash3,
+			title: "Eliminado",
+			helpText: $"{DateTime.Now}",
+			message: $"Se elimino el tecnico correctamente."));
+			Volver();
 	}
 
 	public async Task Volver()
