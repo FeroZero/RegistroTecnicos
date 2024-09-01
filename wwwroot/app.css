@@ -103,7 +103,20 @@ h1:focus {
 }
 
 .text-naranjaAzulH:hover {
-        color: white;
-        background-color: deepskyblue;
-        border-color: deepskyblue;
+    color: white;
+    background-color: deepskyblue;
+    border-color: deepskyblue;
 }
+
+.btn-OGH{
+    color: orange;
+    background-color: white;
+    border-color: orange;
+}
+
+.btn-OGH:hover{
+    color: white;
+    background-color: steelblue;
+    border-color: steelblue;
+}
+
