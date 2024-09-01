@@ -1,0 +1,84 @@
+﻿@page "/Tecnico/Edit/{TecnicoId:int}"
+@inject TecnicoService tecnicoService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<EditForm Model="tecnico" OnValidSubmit="Guardar">
+	<DataAnnotationsValidator/>
+	<div class="container">
+		<div class="card shadow">
+			@*header*@
+			<div class="card-header color-marcos">
+				<h3 class="text-white"><strong>Editar T&eacute;cnico</strong></h3>
+			</div>
+			@*body*@
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3">
+						<label class="form-label text-naranja"><strong>Nombre</strong></label>
+						<InputText class="form-control" @bind-Value="tecnico.Nombre"></InputText>
+						<ValidationMessage For="(()=> tecnico.Nombre)" />
+
+						<label class="form-label text-naranja"><strong>Sueldo por Hora</strong></label>
+						<InputNumber class="form-control" @bind-Value="tecnico.SueldoHora"></InputNumber>
+						<ValidationMessage For="(()=> tecnico.SueldoHora)" />
+					</div>
+				</div>
+			</div>
+			@*Footer*@
+			<div class="card-footer">
+				<table style="width: 31%;">
+					<tr>
+						<td style="text-align: left;">
+							<button class="btn btn-OGH" @onclick="Volver">Volver</button>
+							<button class="btn text-naranjaAzulH" @onclick="Nuevo">Nuevo</button>
+						</td>
+						<td style="text-align: right;">
+							<button type="submit" class="btn btn-outline-success">Guardar</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</EditForm>
+@code {
+	[Parameter]
+	public int TecnicoId { get; set; }
+	public Tecnicos tecnico { get; set; } = new Tecnicos();
+
+	protected override async Task OnInitializedAsync()
+	{
+		tecnico = await tecnicoService.Buscar(TecnicoId);
+	}
+
+	public async Task Nuevo()
+	{
+		tecnico = new Tecnicos();
+	}
+
+	public async Task Guardar()
+	{
+		if (await Validar())
+			return;
+
+		var crear = await tecnicoService.Guardar(tecnico);
+		if (crear)
+		{
+			Nuevo();
+			Volver();
+		}
+	}
+
+	public async Task<bool> Validar()
+	{
+		var existe = await tecnicoService.ExisteTecnico(tecnico.Nombre);
+		return existe;
+	}
+
+	public async Task Volver()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Tecnico/Index");
+	}
+}
