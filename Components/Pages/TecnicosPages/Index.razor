@@ -62,19 +62,19 @@
 	public async Task Editar(int id)
 	{
 		await Task.CompletedTask;
-		navigationManager.NavigateTo($"/Tecnico/Edit{id}");
+		navigationManager.NavigateTo($"/Tecnico/Edit/{id}");
 	}
 
 	public async Task Ver(int id)
 	{
 		await Task.CompletedTask;
-		navigationManager.NavigateTo($"/Tecnico/Ver{id}");
+		navigationManager.NavigateTo($"/Tecnico/Ver/{id}");
 	}
 
 	public async Task Eliminar(int id)
 	{
 		await Task.CompletedTask;
-		navigationManager.NavigateTo($"/Tecnico/Eliminar{id}");
+		navigationManager.NavigateTo($"/Tecnico/Delete/{id}");
 	}
 
 }
