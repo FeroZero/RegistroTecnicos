@@ -54,9 +54,33 @@ h1:focus {
     background-color: orange !important;
 }
 
+.btn-addN{
+    color: white;
+    background-color: orange;
+    border-color:orange;
+}
+
+.btn-addN:hover{
+    color: black;
+    background-color: orange;
+    border-color: orange;
+}
+
 .text-naranja {
+    color: orange !important; 
+    background-color: white !important;
+    border-color: orange !important;
+}
+
+.btn-NH {
     color: orange;
     background-color: white;
+    border-color: orange;
+}
+
+.btn-NH:hover {
+    color: white;
+    background-color: orange;
     border-color: orange;
 }
 
@@ -106,17 +130,5 @@ h1:focus {
     color: white;
     background-color: deepskyblue;
     border-color: deepskyblue;
-}
-
-.btn-OGH{
-    color: orange;
-    background-color: white;
-    border-color: orange;
-}
-
-.btn-OGH:hover{
-    color: white;
-    background-color: steelblue;
-    border-color: steelblue;
 }
 
