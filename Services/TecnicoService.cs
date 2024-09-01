@@ -39,6 +39,7 @@ namespace RegistroTecnicos.Services
         {
             return await _contexto.Tecnicos
                 .AnyAsync(t => t.Nombre.ToLower().Equals(nombre.ToLower()) && t.TecnicoId != id);
+
         }
 
         public async Task<bool> Eliminar(int tecnicoId)
