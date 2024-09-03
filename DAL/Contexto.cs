@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistroTecnicos.Models;
 
-namespace RegistroTecnicos.DAL
-{
-    public class Contexto : DbContext
-    {
-        public Contexto(DbContextOptions<Contexto> Options) 
-            : base(Options){ }
+namespace RegistroTecnicos.DAL;
 
-        public DbSet<Tecnicos> Tecnicos { get; set; }
-    }
+public class Contexto : DbContext
+{
+    public Contexto(DbContextOptions<Contexto> Options) 
+        : base(Options){ }
+
+    public DbSet<Tecnicos> Tecnicos { get; set; }
 }
