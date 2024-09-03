@@ -17,8 +17,8 @@
 					<div class="row">
 						<div class="col-3">
 						<label class="form-label text-naranja"><strong>Nombre</strong></label>
-							<InputText class="form-control" @bind-Value="tecnico.Nombre"></InputText>
-							<ValidationMessage For="(()=> tecnico.Nombre)" />
+							<InputText class="form-control" @bind-Value="tecnico.Nombres"></InputText>
+							<ValidationMessage For="(()=> tecnico.Nombres)" />
 
 						<label class="form-label text-naranja"><strong>Sueldo por Hora</strong></label>
 							<InputNumber class="form-control" @bind-Value="tecnico.SueldoHora"></InputNumber>
@@ -87,7 +87,7 @@
 
 	public async Task<bool> Validar()
 	{
-		var existe = await tecnicoService.ExisteTecnico(tecnico.Nombre,tecnico.TecnicoId);
+		var existe = await tecnicoService.ExisteTecnico(tecnico.Nombres,tecnico.TecnicoId);
 		return existe;
 	}
 

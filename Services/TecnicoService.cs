@@ -38,7 +38,7 @@ namespace RegistroTecnicos.Services
         public async Task<bool> ExisteTecnico(string nombre, int id)
         {
             return await _contexto.Tecnicos
-                .AnyAsync(t => t.Nombre.ToLower().Equals(nombre.ToLower()) && t.TecnicoId != id);
+                .AnyAsync(t => t.Nombres.ToLower().Equals(nombre.ToLower()) && t.TecnicoId != id);
 
         }
 
