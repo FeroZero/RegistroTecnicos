@@ -4,7 +4,7 @@
 @inject ToastService toastService
 @rendermode InteractiveServer
 
-<EditForm Model="tecnicos">
+<PageTitle>Eliminar</PageTitle>
 	<div class="container-sm">
 		<div class="card shadow-sm">
 			@*header*@
@@ -35,7 +35,6 @@
 			</div>
 		</div>
 	</div>
-</EditForm>
 @code {
 	[Parameter]
 	public int TecnicoId { get; set; }

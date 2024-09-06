@@ -2,7 +2,7 @@
 
 namespace RegistroTecnicos.Models
 {
-	public class TipoTecnicos
+	public class TiposTecnicos
 	{
 		[Key]
 		public int TipoId { get; set; }
