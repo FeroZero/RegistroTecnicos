@@ -47,7 +47,7 @@
 </div>
 
 @code {
-	public List<Tecnicos> ListaTecnico = new List<Tecnicos>();
+	public List<Tecnicos> ListaTecnico { get; set; } = new List<Tecnicos>();
 
 	protected override async Task OnInitializedAsync()
 	{
