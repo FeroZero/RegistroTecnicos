@@ -35,25 +35,25 @@ namespace RegistroTecnicos.Services
 				.AnyAsync(t => t.TipoId == tipoId);
 		}
 
-		public async Task<bool> ExisteTecnico(string nombre, int id)
+		public async Task<bool> ExisteTipo(string descripcion, int id)
 		{
 			return await _contexto.TiposTecnicos
-				.AnyAsync(t => t.Descripcion.ToLower().Equals(nombre.ToLower()) && t.TipoId != id);
+				.AnyAsync(t => t.Descripcion.ToLower().Equals(descripcion.ToLower()) && t.TipoId != id);
 
 		}
 
-		public async Task<bool> Eliminar(int tecnicoId)
+		public async Task<bool> Eliminar(int tipoId)
 		{
 			var tecnicos = await _contexto.TiposTecnicos.
-				Where(t => t.TipoId == tecnicoId).ExecuteDeleteAsync();
+				Where(t => t.TipoId == tipoId).ExecuteDeleteAsync();
 			return tecnicos > 0;
 		}
 
-		public async Task<TiposTecnicos?> Buscar(int tecnicoId)
+		public async Task<TiposTecnicos?> Buscar(int tipoId)
 		{
 			return await _contexto.TiposTecnicos.
 				AsNoTracking()
-				.FirstOrDefaultAsync(t => t.TipoId == tecnicoId);
+				.FirstOrDefaultAsync(t => t.TipoId == tipoId);
 		}
 
 		public async Task<List<TiposTecnicos>> Listar(Expression<Func<TiposTecnicos, bool>> criterio)
