@@ -59,6 +59,7 @@ public class TecnicoService(Contexto _contexto)
     public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
     {
         return await _contexto.Tecnicos.
+            Include(l => l.TiposTecnicos).
             AsNoTracking().
             Where(criterio).
             ToListAsync();
