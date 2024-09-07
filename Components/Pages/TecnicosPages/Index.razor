@@ -22,6 +22,7 @@
 						<th class="text-naranja">id</th>
 						<th class="text-naranja">Nombre</th>
 						<th class="text-naranja">Sueldo</th>
+						<th class="text-naranja">Tipo</th>
 						<th class="text-naranja">Editar</th>
 						<th class="text-naranja">Ver</th>
 						<th class="text-naranja">Eliminar</th>
@@ -35,6 +36,7 @@
 							<td>@tecnicos.TecnicoId</td>
 							<td>@tecnicos.Nombres</td>
 							<td>@tecnicos.SueldoHora</td>
+							<td>@tecnicos.TiposTecnicos?.Descripcion</td>
 							<td><button class="btn text-naranjaVerdeH bi bi-pencil-square" @onclick="()=> Editar(tecnicos.TecnicoId)"></button></td>
 							<td><button class="btn text-naranjaAzulH bi bi-search" @onclick="()=> Detalles(tecnicos.TecnicoId)"></button></td>
 							<td><button class="btn text-naranjaRojoH bi bi-trash3" @onclick="()=> Eliminar(tecnicos.TecnicoId)"></button></td>
