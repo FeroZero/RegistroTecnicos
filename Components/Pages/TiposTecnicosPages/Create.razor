@@ -1,0 +1,86 @@
+﻿@page "/TiposTecnicos/Create"
+@inject TipoTecnicoService tipoTecnicoService
+@inject NavigationManager navigationManager
+@inject ToastService toastService
+@rendermode InteractiveServer
+
+<EditForm Model="tipoTecnico" OnValidSubmit="Guardar">
+	<DataAnnotationsValidator/>
+	<div class="container">
+		<div class="card shadow">
+			@*header*@
+			<div class="card-header color-marcos">
+				<h3 class="text-white"><strong>Crear Nuevo TipoT&eacute;cnico</strong></h3>
+			</div>
+			@*body*@
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3">
+						<label class="form-label text-naranja"><strong>Descripcion</strong></label>
+							<InputText class="form-control" @bind-Value="tipoTecnico.Descripcion"></InputText>
+							<ValidationMessage For="(()=> tipoTecnico.Descripcion)"/>
+					</div>
+				</div>
+			</div>
+			@*footer*@
+			<div class="card-footer">
+				<button type="button" class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+				<button type="button" class="btn text-naranjaAzulH bi bi-arrow-counterclockwise" @onclick="Nuevo"></button>
+				<button type="submit" class="btn btn-outline-success bi bi-floppy-fill"></button>
+			</div>
+		</div>
+	</div>
+</EditForm>
+
+@code {
+	public TiposTecnicos tipoTecnico { get; set; } = new TiposTecnicos();
+
+	public async Task Nuevo()
+	{
+		tipoTecnico = new TiposTecnicos();
+	}
+
+	public async Task Guardar()
+	{
+		if(await Validar())
+		{
+			toastService.Notify(new(ToastType.Warning,
+			iconName: IconName.None,
+			title: "Error",
+			helpText: $"Intente un nombre diferente. {DateTime.Now}",
+			message: $"Esta descripcion ya existe."));
+			return;
+		}
+		var crear = await tipoTecnicoService.Guardar(tipoTecnico);
+		if(crear)
+		{
+			toastService.Notify(new(ToastType.Success,
+			iconName: IconName.None,
+			title: "Exito",
+			helpText: $"{DateTime.Now}",
+			message: $"Se a guardo la descripcion correctamente."));
+			Nuevo();
+			Volver();
+		}
+		else
+		{
+			toastService.Notify(new(ToastType.Danger,
+			iconName: IconName.None,
+			title: "Error",
+			helpText: $"{DateTime.Now}",
+			message: $"No se agrego correctamente."));
+		}
+	}
+
+	public async Task<bool> Validar()
+	{
+		var existe = await tipoTecnicoService.ExisteTipo(tipoTecnico.Descripcion, tipoTecnico.TipoId);
+		return existe;
+	}
+
+	public async Task Volver()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/TiposTecnicos/Index");
+	}
+}
