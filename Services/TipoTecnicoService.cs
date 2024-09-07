@@ -9,7 +9,7 @@ namespace RegistroTecnicos.Services
 	{
 		public async Task<bool> Guardar(TiposTecnicos tipoTecnico)
 		{
-			if (!await Existe(tipoTecnico.TipoId))
+			if (!await Existe(tipoTecnico.TiposTecnicosId))
 				return await Insertar(tipoTecnico);
 			else
 				return await Modificar(tipoTecnico);
@@ -32,20 +32,20 @@ namespace RegistroTecnicos.Services
 		public async Task<bool> Existe(int tipoId)
 		{
 			return await _contexto.TiposTecnicos
-				.AnyAsync(t => t.TipoId == tipoId);
+				.AnyAsync(t => t.TiposTecnicosId == tipoId);
 		}
 
 		public async Task<bool> ExisteTipo(string descripcion, int id)
 		{
 			return await _contexto.TiposTecnicos
-				.AnyAsync(t => t.Descripcion.ToLower().Equals(descripcion.ToLower()) && t.TipoId != id);
+				.AnyAsync(t => t.Descripcion.ToLower().Equals(descripcion.ToLower()) && t.TiposTecnicosId != id);
 
 		}
 
 		public async Task<bool> Eliminar(int tipoId)
 		{
 			var tecnicos = await _contexto.TiposTecnicos.
-				Where(t => t.TipoId == tipoId).ExecuteDeleteAsync();
+				Where(t => t.TiposTecnicosId == tipoId).ExecuteDeleteAsync();
 			return tecnicos > 0;
 		}
 
@@ -53,7 +53,7 @@ namespace RegistroTecnicos.Services
 		{
 			return await _contexto.TiposTecnicos.
 				AsNoTracking()
-				.FirstOrDefaultAsync(t => t.TipoId == tipoId);
+				.FirstOrDefaultAsync(t => t.TiposTecnicosId == tipoId);
 		}
 
 		public async Task<List<TiposTecnicos>> Listar(Expression<Func<TiposTecnicos, bool>> criterio)
