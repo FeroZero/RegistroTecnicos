@@ -17,15 +17,15 @@
 		</div>
 		<div class="card-body">
 			<table class="table">
-				<thead>
+				<thead class="text-naranja">
 					<tr>
-						<th class="text-naranja">id</th>
-						<th class="text-naranja">Nombre</th>
-						<th class="text-naranja">Tipo</th>
-						<th class="text-naranja">Sueldo</th>
-						<th class="text-naranja">Editar</th>
-						<th class="text-naranja">Ver</th>
-						<th class="text-naranja">Eliminar</th>
+						<th>id</th>
+						<th>Nombre</th>
+						<th>Tipo</th>
+						<th>Sueldo</th>
+						<th>Editar</th>
+						<th>Ver</th>
+						<th>Eliminar</th>
 					</tr>
 				</thead>
 
@@ -35,7 +35,7 @@
 						<tr>
 							<td>@tecnicos.TecnicoId</td>
 							<td>@tecnicos.Nombres</td>
-							<td>@tecnicos.TiposTecnicos?.Descripcion</td>
+							<td>@tecnicos.TiposTecnicos.Descripcion</td>
 							<td>@tecnicos.SueldoHora</td>
 							<td><button class="btn text-naranjaVerdeH bi bi-pencil-square" @onclick="()=> Editar(tecnicos.TecnicoId)"></button></td>
 							<td><button class="btn text-naranjaAzulH bi bi-search" @onclick="()=> Detalles(tecnicos.TecnicoId)"></button></td>
