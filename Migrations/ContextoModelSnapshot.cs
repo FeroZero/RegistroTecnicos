@@ -32,12 +32,9 @@ namespace RegistroTecnicos.Migrations
                     b.Property<int>("TipoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TiposTecnicosTipoId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("TecnicoId");
 
-                    b.HasIndex("TiposTecnicosTipoId");
+                    b.HasIndex("TipoId");
 
                     b.ToTable("Tecnicos");
                 });
@@ -61,7 +58,7 @@ namespace RegistroTecnicos.Migrations
                 {
                     b.HasOne("RegistroTecnicos.Models.TiposTecnicos", "TiposTecnicos")
                         .WithMany()
-                        .HasForeignKey("TiposTecnicosTipoId")
+                        .HasForeignKey("TipoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

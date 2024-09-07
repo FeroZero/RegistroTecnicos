@@ -10,8 +10,8 @@ using RegistroTecnicos.DAL;
 namespace RegistroTecnicos.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20240907040539_Inicial")]
-    partial class Inicial
+    [Migration("20240907073927_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,12 +35,9 @@ namespace RegistroTecnicos.Migrations
                     b.Property<int>("TipoId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TiposTecnicosTipoId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("TecnicoId");
 
-                    b.HasIndex("TiposTecnicosTipoId");
+                    b.HasIndex("TipoId");
 
                     b.ToTable("Tecnicos");
                 });
@@ -64,7 +61,7 @@ namespace RegistroTecnicos.Migrations
                 {
                     b.HasOne("RegistroTecnicos.Models.TiposTecnicos", "TiposTecnicos")
                         .WithMany()
-                        .HasForeignKey("TiposTecnicosTipoId")
+                        .HasForeignKey("TipoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
