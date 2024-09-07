@@ -1,0 +1,78 @@
+﻿@page "/TiposTecnicos/Index"
+@inject TipoTecnicoService tipoTecnicoService
+@inject NavigationManager navigationManager
+@inject ToastService toastService
+@rendermode InteractiveServer
+
+	<PageTitle>Index Tipo</PageTitle>
+	<div class="container">
+		<div class="card shadow-lg">
+			<div class="card-header color-marcos">
+				<div class="text-center">
+					<h3 class="text-white"><strong>Registro de Tipos T&eacute;cnicos</strong></h3>
+				</div>
+				<div class="text-end">
+					<button class="btn btn-addN bi bi-clipboard2-plus-fill" @onclick="Crear"></button>
+				</div>
+			</div>
+			<div class="card-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="text-naranja">id</th>
+							<th class="text-naranja">Descripcion</th>
+							<th class="text-naranja">Editar</th>
+							<th class="text-naranja">Ver</th>
+							<th class="text-naranja">Eliminar</th>
+						</tr>
+					</thead>
+
+					<tbody>
+					@foreach(var tipo in ListaTiposTecnicos)
+					{
+						<tr>
+							<td>@tipo.TipoId</td>
+							<td>@tipo.Descripcion</td>
+							<td><button class="btn text-naranjaVerdeH bi bi-pencil-square" @onclick="()=> Editar(tipo.TipoId)"></button></td>
+							<td><button class="btn text-naranjaAzulH bi bi-search" @onclick="()=> Detalles(tipo.TipoId)"></button></td>
+							<td><button class="btn text-naranjaRojoH bi bi-trash3" @onclick="()=> Eliminar(tipo.TipoId)"></button></td>
+						</tr>
+					}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+@code {
+	public List<TiposTecnicos> ListaTiposTecnicos { get; set; } = new List<TiposTecnicos>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		ListaTiposTecnicos = await tipoTecnicoService.Listar(t => t.TipoId > 0);
+	}
+
+	public async Task Crear()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/TiposTecnicos/Create");
+	}
+
+	public async Task Editar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/TiposTecnicos/Edit/{id}");
+	}
+
+	public async Task Detalles(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/TiposTecnicos/Details/{id}");
+	}
+
+	public async Task Eliminar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/TiposTecnicos/Delete{id}");
+	}
+}
