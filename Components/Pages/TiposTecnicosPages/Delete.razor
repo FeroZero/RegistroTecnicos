@@ -1,0 +1,55 @@
+﻿@page "/TiposTecnicos/Delete/{TipoId:int}"
+@inject TipoTecnicoService tipoTecnicoService
+@inject NavigationManager navigationManager
+@inject ToastService toastService
+@rendermode InteractiveServer
+
+<PageTitle>Eliminar</PageTitle>
+<div class="container-sm">
+	<div class="card shadow-sm">
+		@*header*@
+		<div class="card-header color-marcos">
+			<h2 class="text-white"><strong>Este seguro de querer eliminar este descripcion?</strong></h2>
+		</div>
+		@*body*@
+		<div class="card-body">
+			<ul>
+				<li><strong class="text-naranja">Id: </strong>@tipoTecnicos.TipoId</li>
+				<li><strong class="text-naranja">Descripcion: </strong>@tipoTecnicos.Descripcion</li>
+			</ul>
+		</div>
+		@*footer*@
+		<div class="card-footer">
+			<button class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+			<button class="btn btn-outline-danger bi bi-trash3" @onclick="Eliminar"></button>
+		</div>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public int TipoId { get; set; }
+	public TiposTecnicos? tipoTecnicos { get; set; } = new TiposTecnicos();
+
+	protected override async Task OnInitializedAsync()
+	{
+		tipoTecnicos = await tipoTecnicoService.Buscar(TipoId);
+	}
+
+	public async Task Eliminar()
+	{
+		var eliminar = await tipoTecnicoService.Eliminar(TipoId);
+		toastService.Notify(new(ToastType.Danger,
+		iconName: IconName.Trash3,
+		title: "Eliminado",
+		helpText: $"{DateTime.Now}",
+		message: $"Se elimino la descripcion {tipoTecnicos.Descripcion} correctamente."));
+		Volver();
+	}
+
+	public async Task Volver()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/TiposTecnicos/Index");
+	}
+}
