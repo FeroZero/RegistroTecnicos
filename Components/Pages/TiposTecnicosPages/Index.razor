@@ -31,11 +31,11 @@
 					@foreach(var tipo in ListaTiposTecnicos)
 					{
 						<tr>
-							<td>@tipo.TipoId</td>
+							<td>@tipo.TiposTecnicosId</td>
 							<td>@tipo.Descripcion</td>
-							<td><button class="btn text-naranjaVerdeH bi bi-pencil-square" @onclick="()=> Editar(tipo.TipoId)"></button></td>
-							<td><button class="btn text-naranjaAzulH bi bi-search" @onclick="()=> Detalles(tipo.TipoId)"></button></td>
-							<td><button class="btn text-naranjaRojoH bi bi-trash3" @onclick="()=> Eliminar(tipo.TipoId)"></button></td>
+							<td><button class="btn text-naranjaVerdeH bi bi-pencil-square" @onclick="()=> Editar(tipo.TiposTecnicosId)"></button></td>
+							<td><button class="btn text-naranjaAzulH bi bi-search" @onclick="()=> Detalles(tipo.TiposTecnicosId)"></button></td>
+							<td><button class="btn text-naranjaRojoH bi bi-trash3" @onclick="()=> Eliminar(tipo.TiposTecnicosId)"></button></td>
 						</tr>
 					}
 					</tbody>
@@ -49,7 +49,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		ListaTiposTecnicos = await tipoTecnicoService.Listar(t => t.TipoId > 0);
+		ListaTiposTecnicos = await tipoTecnicoService.Listar(t => t.TiposTecnicosId > 0);
 	}
 
 	public async Task Crear()
