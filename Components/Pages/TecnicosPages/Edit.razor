@@ -26,14 +26,14 @@
 						<ValidationMessage For="(()=> tecnico.SueldoHora)" />
 
 						<label class="form-label text-naranja"><strong>Tipo</strong></label>
-						<InputSelect class="form-select" @bind-Value="tecnico.TipoId">
+						<InputSelect class="form-select" @bind-Value="tecnico.TiposTecnicosId">
 							<option value="0">Seleccione un Tipo.</option>
 							@foreach (var tipoTecnico in ListaTipoTecnico)
 							{
-								<option value="@tipoTecnico.TipoId">@tipoTecnico.Descripcion</option>
+								<option value="@tipoTecnico.TiposTecnicosId">@tipoTecnico.Descripcion</option>
 							}
 						</InputSelect>
-						<ValidationMessage For="(()=> tecnico.TipoId)"></ValidationMessage>
+						<ValidationMessage For="(()=> tecnico.TiposTecnicosId)"></ValidationMessage>
 					</div>
 				</div>
 			</div>
@@ -63,7 +63,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		tecnico = await tecnicoService.Buscar(TecnicoId);
-		ListaTipoTecnico = await tipoTecnicoService.Listar(t => t.TipoId > 0);
+		ListaTipoTecnico = await tipoTecnicoService.Listar(t => t.TiposTecnicosId > 0);
 	}
 
 	public async Task Nuevo()
