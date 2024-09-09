@@ -38,7 +38,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		Tecnicos = await tecnicoService.Buscar(TecnicoId);	
-		TipoTecnicos = await tipoTecnicoService.Buscar(TecnicoId);
+		TipoTecnicos = await tipoTecnicoService.Buscar(Tecnicos.TiposTecnicosId);
 	}
 
 	public async Task Volver()
