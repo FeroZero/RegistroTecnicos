@@ -1,0 +1,82 @@
+﻿@page "/Cliente/Index"
+@inject ClienteService clienteService
+@inject ToastService toastService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Cliente Index</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		<div class="card-header color-marcos">
+			<div class="text-center">
+				<h3 class="text-white"><strong>Registro Clientes</strong></h3>
+			</div>
+			<div class="text-end">
+				<button class="btn btn-addN bi bi-person-plus-fill" @onclick = "Crear" 
+					style="font-size: 32px;">
+				</button>
+			</div>
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<thead class="text-naranja">
+					<tr>
+						<th class="text-naranja">Id</th>
+						<th class="text-naranja">Nombre</th>
+						<th class="text-naranja">Whatsapp</th>
+						<th class="text-naranja">Editar</th>
+						<th class="text-naranja">Detalle</th>
+						<th class="text-naranja">Eliminar</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					@foreach (var clientes in ListaCliente)
+					{
+						<tr>
+							<td>@clientes.ClienteId</td>
+							<td>@clientes.Nombres</td>
+							<td>@clientes.WhatsApp</td>
+							<td><button class="btn text-naranjaVerdeH bi bi-pencil-square" @onclick = "()=> Editar(clientes.ClienteId)"></button></td>
+							<td><button class="btn text-naranjaAzulH bi bi-search" @onclick = "()=> Detalle(clientes.ClienteId)"></button></td>
+							<td><button class="btn text-naranjaRojoH bi bi-trash3 search" @onclick = "()=> Eliminar(clientes.ClienteId)"></button></td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@code {
+	public List<Clientes> ListaCliente { get; set; } = new List<Clientes>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		ListaCliente = await clienteService.Listar(c => c.ClienteId > 0);
+	}
+
+	public async Task Crear()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Cliente/Create");
+	}
+	
+	public async Task Editar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Cliente/Edit/{id}");
+	}
+
+	public async Task Detalle(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Cliente/Details/{id}");
+	}
+
+	public async Task Eliminar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Cliente/Edit/{id}");
+	}
+}
