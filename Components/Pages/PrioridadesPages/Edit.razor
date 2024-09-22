@@ -1,0 +1,98 @@
+﻿@page "/Prioridad/Edit/{prioridadId:int}"
+@inject PrioridadService prioridadService
+@inject ToastService toastService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<EditForm Model="prioridades" OnValidSubmit="Guardar">
+	<DataAnnotationsValidator />
+	<div class="container">
+		<div class="card shadow">
+			@*header*@
+			<div class="card-header color-marcos">
+				<h3 class="text-white"><strong>Editar Prioridad</strong></h3>
+			</div>
+			@*body*@
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3">
+						<label class="form-label text-naranja"><strong>Descripcion</strong></label>
+						<InputText class="form-control" @bind-Value="prioridades.Descripcion"></InputText>
+						<ValidationMessage For="(()=> prioridades.Descripcion)" />
+					</div>
+					<div class="col-6">
+						<label class="form-label text-naranja"><strong>Tiempo</strong></label>
+						<InputDate Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="prioridades.Tiempo"></InputDate>
+						<ValidationMessage For="(()=> prioridades.Tiempo)" />
+					</div>
+				</div>
+			</div>
+			@*footer*@
+			<div class="card-footer">
+				<button type="button" class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+				<button type="button" class="btn text-naranjaAzulH bi bi-arrow-counterclockwise" @onclick="Nuevo"></button>
+				<button type="submit" class="btn btn-outline-success bi bi-floppy-fill"></button>
+			</div>
+		</div>
+	</div>
+</EditForm>
+
+@code {
+	[Parameter]
+	public int prioridadId { get; set; }
+	public Prioridades? prioridades { get; set; } = new Prioridades();
+
+	protected override async Task OnInitializedAsync()
+	{
+		prioridades = await prioridadService.Buscar(prioridadId);
+	}
+
+	public async Task Nuevo()
+	{
+		prioridades = new Prioridades();
+	}
+
+	public async Task Guardar()
+	{
+		if (await Validar())
+		{
+			toastService.Notify(new(ToastType.Warning,
+			iconName: IconName.None,
+			title: "Error",
+			helpText: $"Intente un descripcion diferente. {DateTime.Now}",
+			message: $"Esta descripcion ya existe."));
+			return;
+		}
+		var crear = await prioridadService.Guardar(prioridades);
+		if (crear)
+		{
+			toastService.Notify(new(ToastType.Success,
+			iconName: IconName.None,
+			title: "Exito",
+			helpText: $"{DateTime.Now}",
+			message: $"Se a guardo la descripcion correctamente."));
+			Nuevo();
+			Volver();
+		}
+		else
+		{
+			toastService.Notify(new(ToastType.Danger,
+			iconName: IconName.None,
+			title: "Error",
+			helpText: $"{DateTime.Now}",
+			message: $"No se agrego correctamente."));
+		}
+	}
+
+	public async Task<bool> Validar()
+	{
+		var existe = await prioridadService.ExistePrioridad(prioridades.Descripcion, prioridades.PrioridadId);
+		return existe;
+	}
+
+	public async Task Volver()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Prioridad/Index");
+	}
+}
