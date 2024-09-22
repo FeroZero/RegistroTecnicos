@@ -1,0 +1,80 @@
+﻿@page "/Prioridad/Index"
+@inject PrioridadService prioridadService
+@inject ToastService toastService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Index Prioridades</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		<div class="card-header color-marcos">
+			<div class="text-center">
+				<h3 class="text-white"><strong>Registro de Prioridades</strong></h3>
+			</div>
+			<div class="text-end">
+				<button class="btn btn-addN bi bi-clipboard2-plus-fill" @onclick="Crear"></button>
+			</div>
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="text-naranja">id</th>
+						<th class="text-naranja">Descripcion</th>
+						<th class="text-naranja">Tiempo</th>
+						<th class="text-naranja">Editar</th>
+						<th class="text-naranja">Ver</th>
+						<th class="text-naranja">Eliminar</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					@foreach (var prioridad in ListaPrioridades)
+					{
+						<tr>
+							<td>@prioridad.PrioridadId</td>
+							<td>@prioridad.Descripcion</td>
+							<td>@prioridad.Tiempo</td>
+							<td><button class="btn text-naranjaVerdeH bi bi-pencil-square" @onclick="()=> Editar(prioridad.PrioridadId)"></button></td>
+							<td><button class="btn text-naranjaAzulH bi bi-search" @onclick="()=> Detalles(prioridad.PrioridadId)"></button></td>
+							<td><button class="btn text-naranjaRojoH bi bi-trash3" @onclick="()=> Eliminar(prioridad.PrioridadId)"></button></td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@code {
+	public List<Prioridades> ListaPrioridades { get; set; } = new List<Prioridades>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		ListaPrioridades = await prioridadService.Listar(t => t.PrioridadId > 0);
+	}
+
+	public async Task Crear()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Prioridad/Create");
+	}
+
+	public async Task Editar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Prioridad/Edit/{id}");
+	}
+
+	public async Task Detalles(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Prioridad/Details/{id}");
+	}
+
+	public async Task Eliminar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Prioridad/Delete/{id}");
+	}
+}
