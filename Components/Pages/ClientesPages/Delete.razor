@@ -1,0 +1,62 @@
+﻿@page "/Cliente/Delete/{clienteId:int}"
+@inject ClienteService clienteService
+@inject ToastService toastService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Eliminar</PageTitle>
+<div class="container-sm">
+	<div class="card shadow-sm">
+		<div class="card-header color-marcos">
+			<h4 class="text-white"><strong>Esta seguro de querer eliminar al cliente?</strong></h4>
+		</div>
+
+		<div class="card-body">
+			<ul>
+				<li><strong class="text-naranja">Id: </strong><strong>@cliente.ClienteId</strong></li>
+				<li><strong class="text-naranja">Nombre: </strong><strong>@cliente.Nombres</strong></li>
+				<li><strong class="text-naranja">Sueldo: </strong><strong>@cliente.WhatsApp</strong></li>
+			</ul>
+		</div>
+
+		<div class="card-fotter">
+			<table style="width: 15%">
+				<tr>
+					<td style="text-align: left">
+						<button class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+					</td>
+					<td style="text-align: right;">
+						<button class="btn btn-outline-danger bi bi-trash3" @onclick="Eliminar"></button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+@code {
+	[Parameter]
+	public int clienteId { get; set; }
+	public Clientes cliente { get; set; } = new Clientes();
+
+	protected override async Task OnInitializedAsync()
+	{
+		cliente = await clienteService.Buscar(clienteId);
+	}
+
+	public async Task Eliminar()
+	{
+		var eliminar = await clienteService.Eliminar(clienteId);
+		toastService.Notify(new(ToastType.Danger,
+		iconName: IconName.Trash3,
+		title: "Eliminado",
+		helpText: $"{DateTime.Now}",
+		message: $"Se elimino el cliente {cliente.Nombres} correctamente."));
+		Volver();
+	}
+
+	public async Task Volver()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Cliente/Index");
+	}
+}
