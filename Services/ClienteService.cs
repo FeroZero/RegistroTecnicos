@@ -38,7 +38,7 @@ public class ClienteService(Contexto _contexto)
 	public async Task<bool> ExisteCliente(string nombre,int id, string numero)
 	{
 		return await _contexto.Clientes
-			.AnyAsync(c => c.Nombres.ToLower().Equals(nombre.ToLower()) && c.ClienteId != id && c.WhatsApp.ToLower().Equals(numero.ToLower()));
+			.AnyAsync(c => c.Nombres.ToLower().Equals(nombre.ToLower()) && c.ClienteId != id  || c.WhatsApp.ToLower().Equals(numero.ToLower()) && c.ClienteId != id);
 	}
 
 	public async Task<bool> Eliminar(int clienteId)
