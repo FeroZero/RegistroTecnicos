@@ -12,6 +12,6 @@ public class Clientes
 	public string? Nombres { get; set; }
 
 	[Required]
-	[RegularExpression(@"\d{3}-\d{3}-\s{4}$", ErrorMessage = "Numero de telefono.")]
+	[RegularExpression(@"\d{3}-\d{3}-\d{4}$", ErrorMessage = "Numero de telefono.")]
 	public string? WhatsApp { get; set; }
 }
