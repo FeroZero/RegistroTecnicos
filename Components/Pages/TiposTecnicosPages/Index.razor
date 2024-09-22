@@ -4,31 +4,31 @@
 @inject ToastService toastService
 @rendermode InteractiveServer
 
-	<PageTitle>Index Tipo</PageTitle>
-	<div class="container">
-		<div class="card shadow-lg">
-			<div class="card-header color-marcos">
-				<div class="text-center">
-					<h3 class="text-white"><strong>Registro de Tipos T&eacute;cnicos</strong></h3>
-				</div>
-				<div class="text-end">
-					<button class="btn btn-addN bi bi-clipboard2-plus-fill" @onclick="Crear"></button>
-				</div>
+<PageTitle>Index Tipo</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		<div class="card-header color-marcos">
+			<div class="text-center">
+				<h3 class="text-white"><strong>Registro de Tipos T&eacute;cnicos</strong></h3>
 			</div>
-			<div class="card-body">
-				<table class="table">
-					<thead>
-						<tr>
-							<th class="text-naranja">id</th>
-							<th class="text-naranja">Descripcion</th>
-							<th class="text-naranja">Editar</th>
-							<th class="text-naranja">Ver</th>
-							<th class="text-naranja">Eliminar</th>
-						</tr>
-					</thead>
+			<div class="text-end">
+				<button class="btn btn-addN bi bi-clipboard2-plus-fill" @onclick="Crear"></button>
+			</div>
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="text-naranja">id</th>
+						<th class="text-naranja">Descripcion</th>
+						<th class="text-naranja">Editar</th>
+						<th class="text-naranja">Ver</th>
+						<th class="text-naranja">Eliminar</th>
+					</tr>
+				</thead>
 
-					<tbody>
-					@foreach(var tipo in ListaTiposTecnicos)
+				<tbody>
+					@foreach (var tipo in ListaTiposTecnicos)
 					{
 						<tr>
 							<td>@tipo.TiposTecnicosId</td>
@@ -38,11 +38,11 @@
 							<td><button class="btn text-naranjaRojoH bi bi-trash3" @onclick="()=> Eliminar(tipo.TiposTecnicosId)"></button></td>
 						</tr>
 					}
-					</tbody>
-				</table>
-			</div>
+				</tbody>
+			</table>
 		</div>
 	</div>
+</div>
 
 @code {
 	public List<TiposTecnicos> ListaTiposTecnicos { get; set; } = new List<TiposTecnicos>();
