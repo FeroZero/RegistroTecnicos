@@ -1,0 +1,43 @@
+﻿@page "/Cliente/Details/{clienteId:int}"
+@inject ClienteService clienteService
+@inject ToastService toastService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+
+<PageTitle>Detalles</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		<div class="card-header color-marcos">
+			<h4 class="text-white"><strong>Detalles</strong></h4>
+		</div>
+		<div class="card-body">
+			<ul>
+				<li><strong class="text-naranja">Id: </strong><strong>@cliente.ClienteId</strong></li>
+				<li><strong class="text-naranja">Nombre: </strong><strong>@cliente.Nombres</strong></li>
+				<li><strong class="text-naranja">Sueldo: </strong><strong>@cliente.WhatsApp</strong></li>
+			</ul>
+		</div>
+		<div class="card-fotter">
+			<div class="card">
+				<button class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+			</div>
+		</div>
+	</div>
+</div>
+@code {
+	[Parameter]
+	public int clienteId { get; set; }
+	public Clientes cliente { get; set; } = new Clientes();
+
+	protected override async Task OnInitializedAsync()
+	{
+		cliente = await clienteService.Buscar(clienteId);
+	}
+
+	public async Task Volver()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Cliente/Index");
+	}
+}
