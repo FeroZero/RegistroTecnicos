@@ -1,0 +1,56 @@
+﻿@page "/Prioridad/Delete/{prioridadId:int}"
+@inject PrioridadService prioridadService
+@inject ToastService toastService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Eliminar</PageTitle>
+<div class="container">
+	<div class="card shadow">
+		@*header*@
+		<div class="card-header color-marcos">
+			<h4 class="text-white"><strong>Esta seguro que quiere eliminar esta prioridad?</strong></h4>
+		</div>
+		@*body*@
+		<div class="card-body">
+			<ul>
+				<li><strong class="text-naranja">Id: </strong><strong>@prioridades.PrioridadId</strong></li>
+				<li><strong class="text-naranja">Descripcion: </strong><strong>@prioridades.Descripcion</strong></li>
+				<li><strong class="text-naranja">Tiempo: </strong><strong>@prioridades.Tiempo</strong></li>
+			</ul>
+		</div>
+		@*fotter*@
+		<div class="card-fotter">
+			<button class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+			<button class="btn btn-outline-danger bi bi-trash3" @onclick="Eliminar"></button>
+		</div>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public int prioridadId { get; set; }
+	public Prioridades? prioridades { get; set; } = new Prioridades();
+
+	protected override async Task OnInitializedAsync()
+	{
+		prioridades = await prioridadService.Buscar(prioridadId);
+	}
+
+	public async Task Eliminar()
+	{
+		var eliminar = await prioridadService.Eliminar(prioridadId);
+		toastService.Notify(new(ToastType.Danger,
+		iconName: IconName.Trash3,
+		title: "Eliminado",
+		helpText: $"{DateTime.Now}",
+		message: $"Se elimino la prioridad: {prioridades.Descripcion}."));
+		Volver();
+	}
+
+	public async Task Volver()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Prioridad/Index");
+	}
+}
