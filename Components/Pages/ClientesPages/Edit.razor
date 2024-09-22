@@ -1,0 +1,105 @@
+﻿@page "/Cliente/Edit/{clienteId:int}"
+@inject ClienteService clienteService
+@inject ToastService toastService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<EditForm Model="cliente" OnValidSubmit="Guardar">
+	<DataAnnotationsValidator />
+	<div class="container">
+		<div class="card shadow">
+			@*header*@
+			<div class="card-header color-marcos">
+				<h3 class="text-white"><strong>Editar Cliente</strong></h3>
+			</div>
+			@*body*@
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3">
+						<label class="form-label text-naranja"><strong>Nombre</strong></label>
+						<InputText class="form-control" @bind-Value="cliente.Nombres"></InputText>
+						<ValidationMessage For="(()=> cliente.Nombres)" />
+
+						<label class="form-label text-naranja"><strong>Numero de WhatsApp</strong></label>
+						<InputText class="form-control" @bind-Value="cliente.WhatsApp"></InputText>
+						<ValidationMessage For="(()=> cliente.WhatsApp)" />
+					</div>
+				</div>
+			</div>
+			@*Footer*@
+			<div class="card-footer">
+				<table style="width: 31%;">
+					<tr>
+						<td style="text-align: left;">
+							<button type="button" class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+							<button type="button" class="btn text-naranjaAzulH bi bi-arrow-counterclockwise" @onclick="Nuevo"></button>
+						</td>
+						<td style="text-align: right;">
+							<button type="submit" class="btn btn-outline-success bi bi-floppy-fill"></button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</EditForm>
+
+@code {
+	[Parameter]
+	public int clienteId { get; set; }
+	public Clientes cliente { get; set; } = new Clientes();
+
+	protected override async Task OnInitializedAsync()
+	{
+		cliente = await clienteService.Buscar(clienteId);
+	}
+
+	public async Task Nuevo()
+	{
+		cliente = new Clientes();
+	}
+
+	public async Task Guardar()
+	{
+		if (await Validar())
+		{
+			toastService.Notify(new(ToastType.Warning,
+			iconName: IconName.None,
+			title: "Error",
+			helpText: $"Intente un nombre o numero diferente. {DateTime.Now}",
+			message: $"El Nombre o Numero de telefono estan ocupado."));
+			return;
+		}
+		var crear = await clienteService.Guardar(cliente);
+		if (crear)
+		{
+			toastService.Notify(new(ToastType.Success,
+			iconName: IconName.PencilFill,
+			title: "Exito",
+			helpText: $"{DateTime.Now}",
+			message: $"Se edito el cliente correctamente."));
+			Nuevo();
+			Volver();
+		}
+		else
+		{
+			toastService.Notify(new(ToastType.Danger,
+			iconName: IconName.None,
+			title: "Error",
+			helpText: $"{DateTime.Now}",
+			message: $"No se agrego correctamente."));
+		}
+	}
+
+	public async Task<bool> Validar()
+	{
+		var existe = await clienteService.ExisteCliente(cliente.Nombres, cliente.ClienteId, cliente.WhatsApp);
+		return existe;
+	}
+
+	public async Task Volver()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Cliente/Index");
+	}
+}
