@@ -28,7 +28,7 @@ public class Contexto : DbContext
                     Descripcion = "Pasta Termica",
                     Costo = 200,
                     Precio = 500,
-                    Existencia = 2
+                    Existencia = 20
                 },
                  new()
                 {
@@ -36,7 +36,7 @@ public class Contexto : DbContext
                     Descripcion = "USB",
                     Costo = 150,
                     Precio = 600,
-                    Existencia = 1
+                    Existencia = 40
                 }
             }
             );
