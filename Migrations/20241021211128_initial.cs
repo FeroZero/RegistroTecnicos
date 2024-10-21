@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RegistroTecnicos.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -136,6 +136,12 @@ namespace RegistroTecnicos.Migrations
                 {
                     table.PrimaryKey("PK_TrabajosDetalle", x => x.DetalleId);
                     table.ForeignKey(
+                        name: "FK_TrabajosDetalle_Articulos_ArticuloId",
+                        column: x => x.ArticuloId,
+                        principalTable: "Articulos",
+                        principalColumn: "ArticuloId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_TrabajosDetalle_Trabajos_TrabajoId",
                         column: x => x.TrabajoId,
                         principalTable: "Trabajos",
@@ -148,8 +154,8 @@ namespace RegistroTecnicos.Migrations
                 columns: new[] { "ArticuloId", "Costo", "Descripcion", "Existencia", "Precio" },
                 values: new object[,]
                 {
-                    { 1, 200m, "Pasta Termica", 2, 500m },
-                    { 2, 150m, "USB", 1, 600m }
+                    { 1, 200m, "Pasta Termica", 20, 500m },
+                    { 2, 150m, "USB", 40, 600m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -168,6 +174,11 @@ namespace RegistroTecnicos.Migrations
                 column: "TecnicoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TrabajosDetalle_ArticuloId",
+                table: "TrabajosDetalle",
+                column: "ArticuloId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TrabajosDetalle_TrabajoId",
                 table: "TrabajosDetalle",
                 column: "TrabajoId");
@@ -177,13 +188,13 @@ namespace RegistroTecnicos.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Articulos");
-
-            migrationBuilder.DropTable(
                 name: "Prioridades");
 
             migrationBuilder.DropTable(
                 name: "TrabajosDetalle");
+
+            migrationBuilder.DropTable(
+                name: "Articulos");
 
             migrationBuilder.DropTable(
                 name: "Trabajos");

@@ -46,7 +46,7 @@ namespace RegistroTecnicos.Migrations
                             ArticuloId = 1,
                             Costo = 200m,
                             Descripcion = "Pasta Termica",
-                            Existencia = 2,
+                            Existencia = 20,
                             Precio = 500m
                         },
                         new
@@ -54,7 +54,7 @@ namespace RegistroTecnicos.Migrations
                             ArticuloId = 2,
                             Costo = 150m,
                             Descripcion = "USB",
-                            Existencia = 1,
+                            Existencia = 40,
                             Precio = 600m
                         });
                 });
@@ -174,9 +174,6 @@ namespace RegistroTecnicos.Migrations
                     b.Property<int>("ArticuloId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ArticulosArticuloId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Cantidad")
                         .HasColumnType("INTEGER");
 
@@ -191,7 +188,7 @@ namespace RegistroTecnicos.Migrations
 
                     b.HasKey("DetalleId");
 
-                    b.HasIndex("ArticulosArticuloId");
+                    b.HasIndex("ArticuloId");
 
                     b.HasIndex("TrabajoId");
 
@@ -232,7 +229,9 @@ namespace RegistroTecnicos.Migrations
                 {
                     b.HasOne("RegistroTecnicos.Models.Articulos", "Articulos")
                         .WithMany()
-                        .HasForeignKey("ArticulosArticuloId");
+                        .HasForeignKey("ArticuloId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("RegistroTecnicos.Models.Trabajos", "Trabajos")
                         .WithMany("TrabajosDetalle")
