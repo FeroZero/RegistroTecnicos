@@ -17,6 +17,5 @@ public class Tecnicos
 
     [ForeignKey("TiposTecnicosId")]
     public int TiposTecnicosId { get; set; }
-
     public TiposTecnicos? TiposTecnicos { get; set; }
 }
