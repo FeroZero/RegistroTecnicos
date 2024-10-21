@@ -1,0 +1,86 @@
+﻿@page "/Trabajo/Details/{TrabajoId:int}"
+@inject IJSRuntime JS
+@inject TrabajoService trabajoService
+@inject ClienteService clienteService
+@inject TecnicoService tecnicoService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Detalle del trabajo</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		@*Header*@
+		<div class="card-header bg-primary text-white text-center">
+			<h3><strong>Detalles del Trabajo</strong></h3>
+		</div>
+		@*Body*@
+		<div class="card-body">
+			<h5><strong>Estos son los detalles del trabajo</strong></h5>
+			@if (Trabajo != null)
+			{
+				@*Datos*@
+				<div class="mb-1">
+					<p class="mb-0">trabajo: @Trabajo.TrabajoId</p>
+				</div>
+				<div class="mb-1">
+					<p class="mb-0">Fecha: @Trabajo.Fecha</p>
+				</div>
+				<div class="mb-1">
+					<p class="mb-0">Cliente: @Cliente.Nombres</p>
+				</div>
+				<div class="mb-1">
+					<p class="mb-0">T&eacute;cnico: @Tecnico.Nombres</p>
+				</div>
+				<div class="mb-1">
+					<p class="mb-0">Descripci&oacute;n: @Trabajo.Descripcion</p>
+				</div>
+				<div class="mb-1">
+					<p class="mb-0">Monto: @Trabajo.Monto</p>
+				</div>
+			}
+			else
+			{
+				<p>No se encontr&oacute; ning&uacute;n Trabajo con el ID especificado.</p>
+			}
+
+
+		</div>
+		@*Footer*@
+		<div class="card-footer">
+			<button class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+			<button type="submit" class="btn btn-success bi bi-whatsapp" @onclick="Terminar"> Finalizar </button>
+		</div>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public int TrabajoId { get; set; }
+	Trabajos Trabajo { get; set; } = new Trabajos();
+	Clientes Cliente { get; set; } = new Clientes();
+	Tecnicos Tecnico { get; set; } = new Tecnicos();
+	protected override async Task OnInitializedAsync()
+	{
+		Trabajo = await trabajoService.Buscar(TrabajoId);
+		Cliente = await clienteService.Buscar(TrabajoId);
+		Tecnico = await tecnicoService.Buscar(TrabajoId);
+
+	}
+
+	public async void Terminar()
+	{
+
+		string mensaje = $"La solicitud {Trabajo.Descripcion} ha sido realizada de manera existosa, espero seguir colaborando con usted";
+		string codificacion = Uri.EscapeDataString(mensaje);
+		String URLwasa = $"https://wa.me/+{Cliente.WhatsApp}?text={codificacion}";
+
+		await JS.InvokeVoidAsync("open", URLwasa, "_blank");
+
+	}
+
+	public async Task Volver()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Trabajo/Index");
+	}
+}
