@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistroTecnicos.DAL;
 using RegistroTecnicos.Models;
-using RestSharp;
 using System.Linq.Expressions;
 
 namespace RegistroTecnicos.Services;
@@ -62,6 +61,7 @@ public class TrabajoService(Contexto _contexto)
 		return await _contexto.Trabajos.
 			Include(l => l.Tecnicos).
 			Include(l => l.Clientes).
+			Include(l => l.TrabajosDetalle).
 			AsNoTracking().
 			Where(criterio).
 			ToListAsync();

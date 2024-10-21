@@ -1,0 +1,82 @@
+﻿﻿<div class="col-auto input-group align-items-center">
+
+    @*Articulos*@
+    <InputSelect class="form-control form-select" @bind-Value="ArticuloId" @onfocus="LimpiarMensaje">
+        <option value="0" selected disabled>-- Seleccione un articulo --</option>
+        @foreach (var articulo in ListArticulos)
+        {
+            <option value="@articulo.ArticuloId"> @articulo.ArticuloId -- @articulo.Descripcion -- (@articulo.Existencia) -- ($@articulo.Precio.ToString("N2"))</option>
+        }
+    </InputSelect>
+
+    @*Cantidad*@
+    <label class="col-form-label input-group-text">Cantidad </label>
+    <InputNumber class="form-control" @bind-Value="Cantidad" placeholder="0" @onfocus="LimpiarMensaje"></InputNumber>
+
+    @*Precio*@
+    <label class="col-form-label input-group-text">Precio</label>
+    <InputNumber class="form-control" @bind-Value="Precio" placeholder="0.00$" readonly></InputNumber>
+    <button type="button" class="btn btn-outline-success bi bi-plus" @onclick="BuscarCantidad" @onfocus="LimpiarMensaje">Agregar detalle</button>
+
+</div>
+
+@if (!string.IsNullOrEmpty(Mensaje))
+{
+    <div class="alert alert-danger bi-exclamation-triangle-fill mt-2">@Mensaje</div>
+}
+
+@code
+{
+
+    [Parameter]
+    public List<Articulos> ListArticulos { get; set; } = [];
+
+    [Parameter]
+    public EventCallback<(Articulos Articulos, int Cantidad)> ArticuloSeleccionado { get; set; }
+
+    [Parameter]
+    public int ArticuloId { get; set; }
+
+    [Parameter]
+    public decimal Precio { get; set; }
+
+    [Parameter]
+    public int Cantidad { get; set; }
+
+    public string Mensaje { get; set; }
+
+
+    public async Task BuscarCantidad()
+    {
+        if (ArticuloId > 0)
+        {
+            var articulo = ListArticulos.Single(p => p.ArticuloId == ArticuloId);
+            if (articulo.Existencia <= 0)
+            {
+                Mensaje = "Articulo agotado";
+                return;
+            }
+            else if (Cantidad > articulo.Existencia)
+            {
+                Mensaje = "Cantidad de articulo insuficiente";
+                return;
+            }
+            else if (Cantidad <= 0)
+            {
+                Mensaje = "La cantidad debe ser mayor que 0";
+                return;
+            }
+            await ArticuloSeleccionado.InvokeAsync((articulo, Cantidad));
+        }
+        else
+        {
+            Mensaje = "Seleccione un articulo";
+            return;
+        }
+    }
+
+    public void LimpiarMensaje()
+    {
+        Mensaje = string.Empty;
+    }
+}

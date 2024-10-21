@@ -9,7 +9,7 @@ namespace RegistroTecnicos.Models
 
 		[Required(ErrorMessage = "Campo Obligatorio")]
 		[RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Solo letras.")]
-		public string Descripcion { get; set; }
+		public string? Descripcion { get; set; }
 
 		[Required(ErrorMessage = "Campo Obligatorio")]
 		public DateTime Tiempo { get; set; } = DateTime.Now;

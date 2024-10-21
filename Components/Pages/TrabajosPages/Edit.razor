@@ -1,0 +1,225 @@
+﻿@page "/Trabajo/Edit/{TrabajoId:int}"
+@inject ClienteService clienteService
+@inject TecnicoService tecnicoService
+@inject TrabajoService trabajoService
+@inject ArticuloService articuloService
+@inject ToastService toastService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<EditForm Model="Trabajo" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="container">
+        <div class="card shadow">
+            @*header*@
+            <div class="card-header color-marcos">
+                <h3 class="text-white"><strong>Editar Trabajo</strong></h3>
+            </div>
+
+            <div class="card-body">
+                @* ClienteId *@
+                <div class="mb-3">
+                    <label for="ClienteId" class="form-label">Cliente:</label>
+                    <InputSelect class="form-control" @bind-Value="Trabajo.ClienteId">
+                        <option value="">Seleccione un cliente</option>
+                        @foreach (var cliente in ListaClientes)
+                        {
+                            <option value="@cliente.ClienteId">@cliente.Nombres</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => Trabajo.ClienteId)" />
+                </div>
+
+                @* TecnicoId *@
+                <div class="mb-3">
+                    <label for="TecnicoId" class="form-label">Técnico:</label>
+                    <InputSelect @bind-Value="Trabajo.TecnicoId" class="form-control">
+                        <option value="">Seleccione un técnico</option>
+                        @foreach (var tecnico in ListaTecnicos)
+                        {
+                            <option value="@tecnico.TecnicoId">@tecnico.Nombres</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => Trabajo.TecnicoId)" />
+                </div>
+
+                @* Fecha *@
+                <div class="mb-3">
+                    <label for="Fecha" class="form-label">Fecha:</label>
+                    <InputDate class="form-control" @bind-Value="Trabajo.Fecha"></InputDate>
+                    <ValidationMessage For="@(() => Trabajo.Fecha)" />
+                </div>
+
+                @* Descripcion *@
+                <div class="mb-3">
+                    <label for="Descripcion" class="form-label">Descripcion:</label>
+                    <InputText @bind-Value="Trabajo.Descripcion" class="form-control" />
+                    <ValidationMessage For="@(() => Trabajo.Descripcion)" />
+                </div>
+
+                @* Monto *@
+                <div class="mb-3">
+                    <label for="Monto" class="form-label">Monto:</label>
+                    <InputNumber @bind-Value="Trabajo.Monto" class="form-control" />
+                    <ValidationMessage For="@(() => Trabajo.Monto)" />
+                </div>
+
+            </div>
+
+            <div class="border border-success p-3 mt-3">
+                <h5>Detalles articulos utilizados</h5>
+                <div class="row">
+                    <detalles ListArticulos="ListArticulos"
+                              ArticuloId="DetalleSeleccionado.ArticuloId"
+                              Cantidad="DetalleSeleccionado.Cantidad"
+                              Precio="DetalleSeleccionado.Precio"
+                              ArticuloSeleccionado=" AgregarDetalle" />
+                </div>
+
+                <div>
+                    <table class="table table-light table-hover">
+                        <thead class="table table-striped ">
+                            <tr class="text-center">
+                                @*ArticuloId*@
+                                <th>ArticuloId</th>
+                                @*CantidadRequerida*@
+                                <th>Cantidad</th>
+                                @*Precio*@
+                                <th>Precio</th>
+                                @*Total*@
+                                <th>Total</th>
+
+                                <th>Remover</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var detalle in Trabajo.TrabajosDetalle)
+                            {
+                                <tr class="text-center">
+                                    <th>@detalle.ArticuloId</th>
+                                    <th>@detalle.Cantidad</th>
+                                    <th>@detalle.Precio</th>
+                                    <th>@(detalle.Precio * detalle.Cantidad)</th>
+                                    <th>
+                                        <button type="button" @onclick=" ()=> Eliminar(detalle)" class="btn btn-outline-danger bi bi-trash mt-2"> Remover</button>
+                                    </th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <table style="width: 31%;">
+                    <tr>
+                        <td style="text-align: left;">
+                            <button type="button" class="btn btn-NH bi bi-arrow-return-left" @onclick="Volver"></button>
+                            <button type="button" class="btn text-naranjaAzulH bi bi-arrow-counterclockwise" @onclick="Nuevo"></button>
+                        </td>
+                        <td style="text-align: right;">
+                            <button type="submit" class="btn btn-outline-success bi bi-floppy-fill"></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int TrabajoId { get; set; }
+    public Trabajos Trabajo { get; set; } = new Trabajos();
+    public List<Clientes> ListaClientes { get; set; } = new List<Clientes>();
+    public List<Tecnicos> ListaTecnicos { get; set; } = new List<Tecnicos>();
+    public List<Articulos> ListArticulos { get; set; } = new List<Articulos>();
+    public TrabajosDetalle DetalleSeleccionado { get; set; } = new TrabajosDetalle();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Trabajo = await trabajoService.Buscar(TrabajoId);
+        ListaClientes = await clienteService.Listar(p => p.ClienteId > 0);
+        ListaTecnicos = await tecnicoService.Listar(p => p.TecnicoId > 0);
+        ListArticulos = await articuloService.Listar(a => true);
+    }
+    public void Nuevo()
+    {
+        Trabajo = new Trabajos();
+    }
+
+    public async Task Guardar()
+    {
+        if (await Validar())
+        {
+            toastService.Notify(new(ToastType.Warning,
+            iconName: IconName.None,
+            title: "Error",
+            helpText: $"Intente una Descripcion diferente. {DateTime.Now}",
+            message: $"Esta descripcion esta ocupado por otro usuario."));
+            return;
+        }
+        var crear = await trabajoService.Guardar(Trabajo);
+        if (crear)
+        {
+            toastService.Notify(new(ToastType.Success,
+            iconName: IconName.None,
+            title: "Exito",
+            helpText: $"{DateTime.Now}",
+            message: $"Se a guardo el trabajo correctamente."));
+            Nuevo();
+            Volver();
+        }
+        else
+        {
+            toastService.Notify(new(ToastType.Danger,
+            iconName: IconName.None,
+            title: "Error",
+            helpText: $"{DateTime.Now}",
+            message: $"No se agrego correctamente."));
+        }
+    }
+
+    public async Task AgregarDetalle((Articulos articulos, int cantidad) seleccion)
+    {
+        var ArticuloExiste = Trabajo.TrabajosDetalle
+        .FirstOrDefault(a => a.ArticuloId == seleccion.articulos.ArticuloId);
+        if (ArticuloExiste != null)
+        {
+            ArticuloExiste.Cantidad += seleccion.cantidad;
+        }
+        else
+        {
+            var Detalle = new TrabajosDetalle
+                {
+                    ArticuloId = seleccion.articulos.ArticuloId,
+                    Cantidad = seleccion.cantidad,
+                    Precio = seleccion.articulos.Precio,
+                    Costo = seleccion.articulos.Costo
+                };
+            Trabajo.TrabajosDetalle.Add(Detalle);
+            DetalleSeleccionado = new TrabajosDetalle();
+            await Task.CompletedTask;
+        }
+    }
+
+    public void Eliminar(TrabajosDetalle detalle)
+    {
+        Trabajo.TrabajosDetalle.Remove(detalle);
+        DetalleSeleccionado.Cantidad = detalle.Cantidad;
+        DetalleSeleccionado.ArticuloId = detalle.ArticuloId;
+        DetalleSeleccionado.Precio = detalle.Precio;
+    }
+
+    public async Task<bool> Validar()
+    {
+        var existe = await trabajoService.ExisteTrabajo(Trabajo.Descripcion, Trabajo.TrabajoId);
+        return existe;
+    }
+
+    public async Task Volver()
+    {
+        await Task.CompletedTask;
+        navigationManager.NavigateTo("/Trabajo/Index");
+    }
+}

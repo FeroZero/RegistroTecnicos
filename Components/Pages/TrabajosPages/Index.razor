@@ -1,0 +1,88 @@
+﻿@page "/Trabajo/Index"
+@inject TrabajoService trabajoService
+@inject ToastService toastService
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Index Tecnicos</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		<div class="card-header color-marcos">
+			<div class="text-center">
+				<h3 class="text-white"><strong>Registro de Trabajos</strong></h3>
+			</div>
+			<div class="text-end">
+				<button class="btn btn-addN bi bi-person-plus-fill" @onclick="Crear"
+						style="font-size: 32px;">
+				</button>
+			</div>
+		</div>
+		<div class="card-body">
+			<table class="table">
+				<thead class="text-naranja">
+					<tr>
+						<th class="text-naranja">id</th>
+						<th class="text-naranja">Trabajo</th>
+						<th class="text-naranja">Fecha</th>
+						<th class="text-naranja">Clientes</th>
+						<th class="text-naranja">Tecnicos</th>
+						<th class="text-naranja">Monto</th>
+						<th class="text-naranja">Editar</th>
+						<th class="text-naranja">Ver</th>
+						<th class="text-naranja">Eliminar</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					@foreach (var trabajos in ListaTrabajo)
+					{
+						<tr>
+							<td>@trabajos.TrabajoId</td>
+							<td>@trabajos.Descripcion</td>
+							<td>@trabajos.Fecha</td>
+							<td>@trabajos.Clientes.Nombres</td>
+							<td>@trabajos.Tecnicos?.Nombres</td>
+							<td>@trabajos.Monto</td>
+							<td><button class="btn text-naranjaVerdeH bi bi-pencil-square" @onclick="()=> Editar(trabajos.TrabajoId)"></button></td>
+							<td><button class="btn text-naranjaAzulH bi bi-search" @onclick="()=> Detalles(trabajos.TrabajoId)"></button></td>
+							<td><button class="btn text-naranjaRojoH bi bi-trash3" @onclick="()=> Eliminar(trabajos.TrabajoId)"></button></td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@code {
+	public List<Trabajos> ListaTrabajo { get; set; } = new List<Trabajos>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		ListaTrabajo = await trabajoService.Listar(t => t.TrabajoId > 0);
+	}
+
+	public async Task Crear()
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo("/Trabajo/Create");
+	}
+
+	public async Task Editar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Trabajo/Edit/{id}");
+	}
+
+	public async Task Detalles(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Trabajo/Details/{id}");
+	}
+
+	public async Task Eliminar(int id)
+	{
+		await Task.CompletedTask;
+		navigationManager.NavigateTo($"/Trabajo/Delete/{id}");
+	}
+}
