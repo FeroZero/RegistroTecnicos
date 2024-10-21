@@ -13,7 +13,7 @@
         <div class="card shadow">
             @*header*@
             <div class="card-header color-marcos">
-                <h3 class="text-white"><strong>Crear Nuevo T&eacute;cnico</strong></h3>
+                <h3 class="text-white"><strong>Crear Nuevo Trabajo</strong></h3>
             </div>
             <div class="card-body">
                 @* ClienteId *@
@@ -67,7 +67,7 @@
             <div class="border border-success p-3 mt-3">
                         <h5>Detalles articulos utilizados</h5>
                         <div class="row">
-                                <detalles ListArticulos="ListArticulos"
+                                <Detalles ListArticulos="ListArticulos"
                                           ArticuloId="DetalleSeleccionado.ArticuloId"
                                           Cantidad="DetalleSeleccionado.Cantidad"
                                           Precio="DetalleSeleccionado.Precio"
@@ -138,7 +138,7 @@
     {
         ListaClientes = await clienteService.Listar(p => p.ClienteId > 0);
         ListaTecnicos = await tecnicoService.Listar(p => p.TecnicoId > 0);
-        ListArticulos = await articuloService.Listar(p => true);
+        ListArticulos = await articuloService.Listar(p => p.ArticuloId > 0);
     }
     public void Nuevo()
     {
