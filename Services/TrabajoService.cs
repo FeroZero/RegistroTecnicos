@@ -18,6 +18,7 @@ public class TrabajoService(Contexto _contexto)
 	private async Task<bool> Modificar(Trabajos trabajo)
 	{
 		_contexto.Update(trabajo);
+		await AfectarArticulo(trabajo.TrabajosDetalle.ToArray());
 		var modificado = await _contexto.SaveChangesAsync() > 0;
 		_contexto.Entry(trabajo).State = EntityState.Modified;
 		return modificado;
@@ -26,6 +27,7 @@ public class TrabajoService(Contexto _contexto)
 	private async Task<bool> Insertar(Trabajos trabajo)
 	{
 		_contexto.Trabajos.Add(trabajo);
+		await AfectarArticulo(trabajo.TrabajosDetalle.ToArray());
 		return await _contexto.SaveChangesAsync() > 0;
 	}
 
@@ -47,6 +49,22 @@ public class TrabajoService(Contexto _contexto)
 		var tecnicos = await _contexto.Trabajos.
 			Where(t => t.TrabajoId == trabajoId).ExecuteDeleteAsync();
 		return tecnicos > 0;
+	}
+
+	private async Task AfectarArticulo(TrabajosDetalle[] detalle, bool resta = true)
+	{
+		foreach (var item in detalle)
+		{
+			var articulo = await _contexto.Articulos.SingleAsync(p => p.ArticuloId == item.ArticuloId);
+			if (resta)
+			{
+				articulo.Existencia -= item.Cantidad;
+			}
+			else
+			{
+				articulo.Existencia += item.Cantidad;
+			}
+		}
 	}
 
 	public async Task<Trabajos?> Buscar(int trabajoId)
